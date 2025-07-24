@@ -1,9 +1,13 @@
 const Koa = require('koa');
 const router = require('koa-router')();
+const cors = require('@koa/cors');  // 新增cors依赖
 const { fakerZH_CN: faker } = require('@faker-js/faker');
 
 // 初始化Koa应用
 const app = new Koa();
+
+// 配置CORS  // 新增中间件配置
+app.use(cors());
 
 // 配置路由
 router.get('/api/faker', async (ctx) => {
