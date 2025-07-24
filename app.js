@@ -108,6 +108,112 @@ router.get('/api/faker/v2/diy', async (ctx) => {
   }
 });
 
+router.get('/api/faker/v2/diy/hobby', async (ctx) => {
+  try {
+
+    // 使用faker.js的eval执行表达式
+    // 注意：在生产环境中使用eval存在安全风险，本示例仅作演示
+    let result = null
+    const hobbyList = [
+      {
+        value: '唱',
+        label: '唱',
+      },
+      {
+        value: '跳',
+        label: '跳',
+      },
+      {
+        value: 'Rap',
+        label: 'Rap',
+      },
+      {
+        value: '篮球',
+        label: '篮球',
+      },
+    ]
+
+    const jobOptions = [
+      {
+        label: '前端工程师',
+        value: '前端工程师',
+      },
+      {
+        label: '后端工程师',
+        value: '后端工程师',
+      },
+      {
+        label: '全栈工程师',
+        value: '全栈工程师',
+      },
+      {
+        label: '产品经理',
+        value: '产品经理',
+      },
+      {
+        label: 'UI设计师',
+        value: 'UI设计师',
+      },
+      {
+        label: '测试工程师',
+        value: '测试工程师',
+      },
+      {
+        label: '运维工程师',
+        value: '运维工程师',
+      },
+      {
+        label: '数据分析师',
+        value: '数据分析师',
+      },
+      {
+        label: '项目经理',
+        value: '项目经理',
+      },
+      {
+        label: '其他',
+        value: '其他',
+      },
+    ]
+     
+
+    result = {
+        name: faker.person.fullName(),
+        age: faker.number.int({ min: 10, max: 60 }),
+        sex: faker.person.sex(),
+        hobby: [...hobbyList]
+          .sort(() => Math.random() - 0.5)
+          .slice(0, faker.number.int({ min: 1, max: hobbyList.length }))
+          .map((item) => item.value),
+        phones: [
+          {
+            phone: faker.phone.number(),
+          },
+        ],
+        email: faker.internet.email(),
+        dateBirth: faker.date.past().getTime(),
+        job: jobOptions[faker.number.int({ min: 0, max: jobOptions.length - 1 })].value,
+        address: `${faker.location.streetAddress()}, ${faker.location.city()}`,
+      }
+    // result = eval(fa.endsWith(')') ? `faker.${fa}` : `faker.${fa}()`);
+    
+    // 返回成功响应
+    ctx.body = {
+      success: true,
+      message: '请求成功',
+      data: result
+    };
+  } catch (error) {
+    // 处理错误情况
+    ctx.status = 500;
+    ctx.body = {
+      success: false,
+      message: `执行出错: ${error.message}`,
+      data: null
+    };
+  }
+});
+
 // 应用路由
 app.use(router.routes()).use(router.allowedMethods());
 
