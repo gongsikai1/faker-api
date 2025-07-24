@@ -69,9 +69,9 @@ router.get('/api/faker/v2/diy', async (ctx) => {
     // 注意：在生产环境中使用eval存在安全风险，本示例仅作演示
     let result = null
     result = Array.from({ length: +num }).map(() => ({
-        id: faker.number.int({ min: 1, max: 1000 }),
+        number: faker.number.int({ min: 1, max: 1000 }),
         fullName: faker.person.fullName(),
-        key: faker.string.uuid(),
+        id: faker.string.uuid(),
         sex: faker.person.sex(),
         age: faker.number.int({ min: 18, max: 65 }),
         email: faker.internet.email(),
@@ -82,8 +82,8 @@ router.get('/api/faker/v2/diy', async (ctx) => {
         children: Array.from({
           length: faker.number.int({ min: 0, max: 3 }),
         }).map(() => ({
-          id: faker.number.int({ min: 2000, max: 10000 }),
-          key: faker.string.uuid(),
+          number: faker.number.int({ min: 2000, max: 10000 }),
+          id: faker.string.uuid(),
           fullName: faker.person.fullName(),
           age: faker.number.int({ min: 1, max: 17 }),
           sex: faker.person.sex(),
