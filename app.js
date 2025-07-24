@@ -1,6 +1,6 @@
 const Koa = require('koa');
 const router = require('koa-router')();
-const { faker } = require('@faker-js/faker');
+const { fakerZH_CN: faker } = require('@faker-js/faker');
 
 // 初始化Koa应用
 const app = new Koa();
