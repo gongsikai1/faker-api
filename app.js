@@ -44,6 +44,52 @@ router.get('/api/faker', async (ctx) => {
   }
 });
 
+router.get('/api/faker/v2/diy', async (ctx) => {
+  try {
+    
+    // 使用faker.js的eval执行表达式
+    // 注意：在生产环境中使用eval存在安全风险，本示例仅作演示
+    let result = null
+    result = Array.from({ length: 300 }).map(() => ({
+        id: faker.number.int({ min: 1, max: 1000 }),
+        fullName: faker.person.fullName(),
+        key: faker.string.uuid(),
+        sex: faker.person.sex(),
+        age: faker.number.int({ min: 18, max: 65 }),
+        email: faker.internet.email(),
+        phone: faker.phone.number(),
+        address: `${faker.location.streetAddress()}, ${faker.location.city()}`,
+        company: faker.company.name(),
+        registerDate: faker.date.past({ years: 10 }).toISOString().split('T')[0],
+        children: Array.from({
+          length: faker.number.int({ min: 0, max: 3 }),
+        }).map(() => ({
+          id: faker.number.int({ min: 2000, max: 10000 }),
+          key: faker.string.uuid(),
+          fullName: faker.person.fullName(),
+          age: faker.number.int({ min: 1, max: 17 }),
+          sex: faker.person.sex(),
+        })),
+      }))
+    // result = eval(fa.endsWith(')') ? `faker.${fa}` : `faker.${fa}()`);
+    
+    // 返回成功响应
+    ctx.body = {
+      success: true,
+      message: '请求成功',
+      data: result
+    };
+  } catch (error) {
+    // 处理错误情况
+    ctx.status = 500;
+    ctx.body = {
+      success: false,
+      message: `执行出错: ${error.message}`,
+      data: null
+    };
+  }
+});
+
 // 应用路由
 app.use(router.routes()).use(router.allowedMethods());
 
