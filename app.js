@@ -47,10 +47,24 @@ router.get('/api/faker', async (ctx) => {
 router.get('/api/faker/v2/diy', async (ctx) => {
   try {
     
+    // 从GET请求参数中获取num的值
+    const { num } = ctx.query;
+    
+    // 验证参数是否存在
+    if (!num) {
+      ctx.status = 400;
+      ctx.body = {
+        success: false,
+        message: '缺少必要参数: num',
+        data: null
+      };
+      return;
+    }
+
     // 使用faker.js的eval执行表达式
     // 注意：在生产环境中使用eval存在安全风险，本示例仅作演示
     let result = null
-    result = Array.from({ length: 300 }).map(() => ({
+    result = Array.from({ length: +num }).map(() => ({
         id: faker.number.int({ min: 1, max: 1000 }),
         fullName: faker.person.fullName(),
         key: faker.string.uuid(),
