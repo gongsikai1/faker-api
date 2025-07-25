@@ -185,9 +185,9 @@ router.get('/api/faker/v2/diy/hobby', async (ctx) => {
           .sort(() => Math.random() - 0.5)
           .slice(0, faker.number.int({ min: 1, max: hobbyList.length }))
           .map((item) => item.value),
-        phones: [
+        phones: [
           {
-            phone: faker.phone.number(),
+            phone: faker.string.numeric(11),
           },
         ],
         email: faker.internet.email(),
